@@ -1,6 +1,8 @@
 package com.Watcharakorn.timeTableSheduler.model;
 
 import java.util.List;
+
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -18,8 +20,8 @@ public class Course {
 	private String code;
 	private String courseName;
 	private Double credit;
-	@OneToMany
-	@JoinColumn(name = "course_section_id")
+	@OneToMany(cascade = CascadeType.ALL,orphanRemoval = true)
+	@JoinColumn(name = "course_id")
 	private List<Section> sections;
 	public Course(String code, String courseName, Double credit) {
 		super();

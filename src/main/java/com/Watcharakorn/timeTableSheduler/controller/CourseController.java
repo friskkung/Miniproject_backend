@@ -32,24 +32,35 @@ public class CourseController {
 	ClassesRepository classesRepository;
 	@GetMapping("/course")
 	public ResponseEntity<Object> getAllCourse(){
-		List<Course> courses = courseRepository.findAll();
+		System.out.println("1");
 		try {
+			System.out.println("2");
+			List<Course> courses = courseRepository.findAll();
+			System.out.println("3");
 			return new ResponseEntity<>(courses,HttpStatus.OK);
 		} catch (Exception e) {
+			System.out.println("4");
 			return new ResponseEntity<>("Internal Sever Error",HttpStatus.INTERNAL_SERVER_ERROR); 
 		}
 	}
 	@GetMapping("/course/{id}")
 	public ResponseEntity<Object> getCourseById(@PathVariable Integer id){
+		System.out.println("1");
 		Optional<Course> course = courseRepository.findById(id);
 		try {
+			System.out.println("2");
 			if (course.isPresent()) {
+				System.out.println("3");
 				return new ResponseEntity<>(course,HttpStatus.OK);
+						
 			} else {
+				System.out.println("4");
 				return new ResponseEntity<Object>("Id not found",HttpStatus.BAD_REQUEST);
+				
 			}
 			
 		} catch (Exception e) {
+			System.out.println("5");
 			return new ResponseEntity<>("Internal Sever Error",HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
