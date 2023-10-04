@@ -1,11 +1,15 @@
 package com.Watcharakorn.timeTableSheduler.controller;
 
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.PrintStream;
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -21,6 +25,7 @@ import com.Watcharakorn.timeTableSheduler.repository.DayRepository;
 import com.Watcharakorn.timeTableSheduler.repository.SectionRepository;
 
 @RestController
+@CrossOrigin(origins = "*")
 public class CourseController {
 	@Autowired
 	CourseRepository courseRepository;
@@ -31,7 +36,19 @@ public class CourseController {
 	@Autowired
 	ClassesRepository classesRepository;
 	@GetMapping("/course")
-	public ResponseEntity<Object> getAllCourse(){
+	public ResponseEntity<Object> getAllCourse() throws FileNotFoundException{
+		PrintStream out;
+		try {
+			out = new PrintStream(new FileOutputStream("test2_output.txt"));
+			System.setOut(out);
+			System.setErr(out);
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			out = new PrintStream(new FileOutputStream("test2_output.txt"));
+			System.setOut(out);
+			System.setErr(out);
+		}
 		System.out.println("1");
 		try {
 			System.out.println("2");
@@ -64,28 +81,30 @@ public class CourseController {
 			return new ResponseEntity<>("Internal Sever Error",HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
-	@GetMapping("/course/{name}")
+	@GetMapping("/course/name{name}")
 	public ResponseEntity<Object> getCourseByName(@PathVariable String name){
-		List<Course> courses = courseRepository.findByCourseName(name);
+		
 		try {
+			List<Course> courses = courseRepository.findByCourseNameContaining(name);
+			System.out.println("Name:"+name);
 			if (!courses.isEmpty()) {
 				return new ResponseEntity<>(courses,HttpStatus.OK);
 			} else {
-				return new ResponseEntity<Object>("Id not found",HttpStatus.BAD_REQUEST);
+				return new ResponseEntity<Object>("Name not found",HttpStatus.BAD_REQUEST);
 			}
 			
 		} catch (Exception e) {
 			return new ResponseEntity<>("Internal Sever Error",HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
-	@GetMapping("/course/{code}")
+	@GetMapping("/course/code{code}")
 	public ResponseEntity<Object> getCourseByCode(@PathVariable String code){
-		List<Course> courses = courseRepository.findByCode(code);
+		List<Course> courses = courseRepository.findByCodeContaining(code);
 		try {
 			if (!courses.isEmpty()) {
 				return new ResponseEntity<>(courses,HttpStatus.OK);
 			} else {
-				return new ResponseEntity<Object>("Id not found",HttpStatus.BAD_REQUEST);
+				return new ResponseEntity<Object>("Code not found",HttpStatus.BAD_REQUEST);
 			}
 		} catch (Exception e) {
 			return new ResponseEntity<Object>("Name not found",HttpStatus.BAD_REQUEST);
@@ -150,4 +169,6 @@ public class CourseController {
 			return new ResponseEntity<>("Internal Sever Error",HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
+	
+	
 }

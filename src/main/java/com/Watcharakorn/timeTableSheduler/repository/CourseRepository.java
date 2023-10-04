@@ -9,7 +9,7 @@ import com.Watcharakorn.timeTableSheduler.model.Course;
 
 @Repository
 public interface CourseRepository extends JpaRepository<Course, Integer> {
-	List<Course> findByCode(String code);
-	List<Course> findByCourseName(String courseName);
+	List<Course> findByCodeContaining(String code);
+	List<Course> findByCourseNameContaining(String courseName);
 	List<Course> findByCredit(Double credit);
 }

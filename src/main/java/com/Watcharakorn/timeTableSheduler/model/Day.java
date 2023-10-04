@@ -2,6 +2,8 @@ package com.Watcharakorn.timeTableSheduler.model;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -19,6 +21,7 @@ public class Day {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Integer dayId;
 	private String dayName;
+	@JsonIgnore
 	@ManyToOne
 	@JoinColumn(name = "section_id")
 	private Section section;

@@ -1,5 +1,7 @@
 package com.Watcharakorn.timeTableSheduler.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -16,6 +18,7 @@ public class Classes {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Integer classId;
 	private String classTime;
+	@JsonIgnore
 	@ManyToOne
 	@JoinColumn(name = "day_id")
 	private Day day;
