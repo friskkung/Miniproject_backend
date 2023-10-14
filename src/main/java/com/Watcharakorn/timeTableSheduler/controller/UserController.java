@@ -45,24 +45,32 @@ public class UserController {
 
 	@GetMapping("/users")
 	public ResponseEntity<Object> authenticateUser(@RequestParam String username, @RequestParam String password) {
-		System.out.println("1");
 		try {
-			System.out.println("In try cath");
-			boolean validate = false;
-			System.out.println("befor find by username");
-			List<User> users = userRepository.findByUserNameEquals(username);
+			List<User> users = userRepository.findByUserNameLike(username);
 			User user = null;
+			System.out.println("username:"+username);
+			System.out.println("password:"+password);
+			boolean validate = false;
 			if (!users.isEmpty()) {
+				System.out.println("isEmpty:"+users.isEmpty());
 				for (int i = 0; i < users.size(); i++) {
-					validate = users.get(i).getUserPassword().equals(password);
-					if (validate) {
+					System.out.println("found Username "+(i+1)+":"+users.get(i).getUserName());
+					System.out.println("found password "+(i+1)+":"+users.get(i).getUserPassword());
+					if (users.get(i).getUserPassword().equals(password)) {
+						System.out.println(users.get(i).getUserPassword()+" = "+password);
 						user = users.get(i);
+						validate=true;
 						break;
 					}
 				}
-				return new ResponseEntity<>(user, HttpStatus.OK);
+				if(validate) {
+					return new ResponseEntity<>(user, HttpStatus.OK);
+				}else {
+					return new ResponseEntity<>("bad request*"+username+"*"+password, HttpStatus.BAD_REQUEST);
+				}
+				
 			} else {
-				return new ResponseEntity<>("bad request", HttpStatus.BAD_REQUEST);
+				return new ResponseEntity<>("username not found", HttpStatus.BAD_REQUEST);
 			}
 		} catch (Exception e) {
 			System.out.println("1");

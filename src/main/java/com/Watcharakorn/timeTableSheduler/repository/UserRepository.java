@@ -9,5 +9,5 @@ import com.Watcharakorn.timeTableSheduler.model.User;
 
 @Repository
 public interface UserRepository extends JpaRepository<User, Integer>{
-	List<User> findByUserNameEquals(String userName);
+	List<User> findByUserNameLike(String userName);
 }
