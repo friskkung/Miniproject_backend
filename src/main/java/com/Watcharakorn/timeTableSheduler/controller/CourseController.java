@@ -36,20 +36,7 @@ public class CourseController {
 	@Autowired
 	ClassesRepository classesRepository;
 	@GetMapping("/course")
-	public ResponseEntity<Object> getAllCourse() throws FileNotFoundException{
-		PrintStream out;
-		try {
-			out = new PrintStream(new FileOutputStream("test2_output.txt"));
-			System.setOut(out);
-			System.setErr(out);
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			out = new PrintStream(new FileOutputStream("test2_output.txt"));
-			System.setOut(out);
-			System.setErr(out);
-		}
-		System.out.println("1");
+	public ResponseEntity<Object> getAllCourse(){
 		try {
 			System.out.println("2");
 			List<Course> courses = courseRepository.findAll();

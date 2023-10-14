@@ -15,9 +15,8 @@ public class User {
 	private String userName;
 	private String userPassword;
 	private Boolean staff;
-	public User(Integer userId, String userName, String userPassword) {
+	public User( String userName, String userPassword) {
 		super();
-		this.userId = userId;
 		this.userName = userName;
 		this.userPassword = userPassword;
 		this.staff = false;
